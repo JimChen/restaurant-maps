@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Panda CAVA Chipotle</title>
+    <style>
+      /* Set the size of the map */
+      #map {
+        height: 100%;
+        width: 100%;
+      }
+      /* Set body and html to fill screen */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIlayyrIqGrhLpcrBnkIW_WT-ceBNJWGI"></script>
+    <script>
+      // Sample data: an array of location objects with type, name, latitude, and longitude
+      const locations = [
+        { name: "Panda Express", lat: 33.915884, lng: -117.886280 },
+        { name: "Panda Express", lat: 33.917099, lng: -117.900927 },
+        { name: "Panda Express", lat: 33.879940, lng: -117.885420 },
+        { name: "Panda Express", lat: 33.874723, lng: -117.890201 },
+        { name: "Panda Express", lat: 33.990500, lng: -117.932355 },
+        { name: "Panda Express", lat: 33.859424, lng: -117.923178 },
+        { name: "Panda Express", lat: 33.944344, lng: -117.994901 },
+        { name: "Panda Express", lat: 33.828621, lng: -117.836684 },
+        { name: "Panda Express", lat: 34.028834, lng: -117.836031 },
+        { name: "Panda Express", lat: 33.818634, lng: -117.941750 },
+        { name: "Panda Express", lat: 33.867197, lng: -117.751554 },
+        { name: "Panda Express", lat: 33.939631, lng: -118.045105 },
+        { name: "Panda Express", lat: 34.069907, lng: -117.927630 },
+        { name: "Panda Express", lat: 34.034567, lng: -117.757935 },
+        { name: "Panda Express", lat: 33.776472, lng: -117.870333 },
+        { name: "Panda Express", lat: 33.788856, lng: -117.962358 },
+        { name: "Panda Express", lat: 33.760602, lng: -117.890393 },
+        { name: "Panda Express", lat: 33.859260, lng: -118.090010 },
+        { name: "Panda Express", lat: 34.002520, lng: -118.087508 },
+        { name: "Panda Express", lat: 33.863160, lng: -118.095070 },
+        { name: "Panda Express", lat: 34.128188, lng: -117.891741 },
+        { name: "Panda Express", lat: 33.938039, lng: -118.129293 },
+        { name: "Panda Express", lat: 34.112956, lng: -117.760279 },
+        { name: "Panda Express", lat: 34.075381, lng: -118.072661 },
+        { name: "Panda Express", lat: 33.844120, lng: -118.261047 },
+        { name: "Panda Express", lat: 34.025834, lng: -118.277207 },
+        { name: "Panda Express", lat: 33.620007, lng: -117.700569 },
+        { name: "Panda Express", lat: 34.136282, lng: -118.215155 },
+        { name: "Panda Express", lat: 34.055789, lng: -118.270161 },
+        { name: "Panda Express", lat: 34.105870, lng: -117.529768 },
+        { name: "Panda Express", lat: 34.112285, lng: -117.534336 },
+        { name: "Panda Express", lat: 34.020471, lng: -118.286229 },
+        { name: "Panda Express", lat: 33.873259, lng: -118.305859 },
+        { name: "Panda Express", lat: 33.909748, lng: -117.457836 },
+        { name: "Panda Express", lat: 34.062141, lng: -118.290428 },
+        { name: "Panda Express", lat: 33.932823, lng: -118.326145 },
+        { name: "Panda Express", lat: 34.149641, lng: -118.246281 },
+        { name: "Panda Express", lat: 34.201250, lng: -118.193900 },
+        { name: "Panda Express", lat: 33.575157, lng: -117.724441 },
+        { name: "Panda Express", lat: 34.145122, lng: -118.258875 },
+        { name: "Panda Express", lat: 34.144982, lng: -118.259147 },
+        { name: "Panda Express", lat: 33.595490, lng: -117.658410 },
+        { name: "Panda Express", lat: 34.010754, lng: -118.336428 },
+        { name: "Panda Express", lat: 33.752388, lng: -118.308158 },
+        { name: "Panda Express", lat: 34.048291, lng: -118.337760 },
+        { name: "Panda Express", lat: 33.832414, lng: -118.347591 },
+        { name: "Panda Express", lat: 33.837592, lng: -118.354177 },
+        { name: "Panda Express", lat: 33.561488, lng: -117.669800 },
+        { name: "Panda Express", lat: 34.138565, lng: -117.440289 },
+        { name: "Panda Express", lat: 33.986499, lng: -118.394040 },
+        { name: "Panda Express", lat: 34.183112, lng: -118.311687 },
+        { name: "Panda Express", lat: 34.155899, lng: -118.346332 },
+        { name: "Panda Express", lat: 34.190115, lng: -118.327188 },
+        { name: "Panda Express", lat: 34.072777, lng: -117.369755 },
+        { name: "Panda Express", lat: 34.058399, lng: -118.419007 },
+        { name: "Panda Express", lat: 33.492031, lng: -117.696958 },
+        { name: "Panda Express", lat: 33.986030, lng: -118.439670 },
+        { name: "Panda Express", lat: 33.889057, lng: -117.324214 },
+        { name: "Panda Express", lat: 34.073684, lng: -117.551576 },
+        { name: "Panda Express", lat: 34.033358, lng: -117.630473 },
+        { name: "Panda Express", lat: 34.087335, lng: -117.693619 },
+        { name: "Panda Express", lat: 33.974845, lng: -117.556372 },
+        { name: "Panda Express", lat: 33.878758, lng: -118.218103 },
+        { name: "Panda Express", lat: 33.974097, lng: -118.232837 },
+        { name: "Panda Express", lat: 33.936076, lng: -117.278452 },
+        { name: "Panda Express", lat: 33.695056, lng: -117.334855 },
+        { name: "Panda Express", lat: 34.078036, lng: -117.557772 },
+        { name: "Panda Express", lat: 34.065979, lng: -117.269587 },
+        { name: "Panda Express", lat: 33.804945, lng: -117.226046 },
+        { name: "Panda Express", lat: 34.424772, lng: -117.372528 },
+        { name: "Panda Express", lat: 34.470660, lng: -117.244770 },
+        { name: "Panda Express", lat: 33.952544, lng: -118.183782 },
+        { name: "Panda Express", lat: 34.039324, lng: -118.143150 },
+        { name: "Panda Express", lat: 34.134920, lng: -118.050997 },
+        { name: "Panda Express", lat: 34.156802, lng: -118.437282 },
+        { name: "Panda Express", lat: 34.151516, lng: -118.450746 },
+        { name: "Panda Express", lat: 34.139374, lng: -118.013817 },
+        { name: "Panda Express", lat: 34.172510, lng: -118.447911 },
+        { name: "Panda Express", lat: 34.235728, lng: -118.534772 },
+        { name: "Panda Express", lat: 34.257330, lng: -118.504060 },
+        { name: "Panda Express", lat: 34.190187, lng: -118.603289 },
+        { name: "Panda Express", lat: 34.195451, lng: -118.606433 },
+        { name: "Panda Express", lat: 33.657405, lng: -117.918706 },
+        { name: "Panda Express", lat: 33.639013, lng: -117.860401 },
+        { name: "Panda Express", lat: 33.849635, lng: -118.140439 },
+        { name: "Panda Express", lat: 34.167543, lng: -118.375742 },
+        { name: "Panda Express", lat: 33.791905, lng: -118.137942 },
+        { name: "Panda Express", lat: 34.415742, lng: -118.557776 },
+        { name: "Panda Express", lat: 34.153808, lng: -118.796277 },
+        { name: "Panda Express", lat: 34.444379, lng: -118.574069 },
+        { name: "Panda Express", lat: 34.184446, lng: -118.888779 },
+        { name: "Panda Express", lat: 34.279986, lng: -118.866456 },
+        { name: "Panda Express", lat: 34.189660, lng: -118.933679 },
+        { name: "Panda Express", lat: 34.599697, lng: -118.147005 },
+        { name: "Panda Express", lat: 34.216253, lng: -119.071685 },
+        { name: "Panda Express", lat: 33.651017, lng: -117.743316 },
+        { name: "Panda Express", lat: 34.607849, lng: -118.147100 },
+        { name: "Panda Express", lat: 34.258912, lng: -119.210622 },
+        { name: "Panda Express", lat: 34.268718, lng: -119.248771 },
+        { name: "Panda Express", lat: 33.443591, lng: -117.613669 },
+        { name: "Panda Express", lat: 33.594064, lng: -117.242367 },
+        { name: "Panda Express", lat: 33.684574, lng: -117.174794 },
+        { name: "Panda Express", lat: 33.178658, lng: -117.326445 },
+        { name: "Panda Express", lat: 33.176725, lng: -117.325989 },
+        { name: "Panda Express", lat: 33.205903, lng: -117.288360 },
+        { name: "Panda Express", lat: 33.524687, lng: -117.154630 },
+        { name: "Panda Express", lat: 33.200393, lng: -117.245171 },
+        { name: "Panda Express", lat: 33.481196, lng: -117.096878 },
+        { name: "Panda Express", lat: 33.067300, lng: -117.262401 },
+        { name: "Panda Express", lat: 33.137411, lng: -117.178431 },
+        { name: "Panda Express", lat: 33.747726, lng: -116.996342 },
+        { name: "Panda Express", lat: 33.739778, lng: -116.215709 },
+        { name: "Panda Express", lat: 33.727156, lng: -116.402350 },
+        { name: "Panda Express", lat: 33.800866, lng: -116.388592 },
+        { name: "Panda Express", lat: 33.920945, lng: -116.803044 },
+        { name: "Panda Express", lat: 33.921742, lng: -116.803067 },
+        { name: "Panda Express", lat: 33.924240, lng: -116.947366 },
+        { name: "Panda Express", lat: 33.132777, lng: -117.062025 },
+        { name: "Panda Express", lat: 33.070471, lng: -117.064912 },
+        { name: "Panda Express", lat: 34.849227, lng: -117.082473 },
+        { name: "Panda Express", lat: 34.439044, lng: -119.749198 },
+        { name: "Panda Express", lat: 32.648260, lng: -116.966457 },
+        { name: "Panda Express", lat: 32.750146, lng: -117.163767 },
+        { name: "Panda Express", lat: 32.768800, lng: -117.148032 },
+        { name: "Panda Express", lat: 32.752046, lng: -117.206136 },
+        { name: "Panda Express", lat: 32.838768, lng: -116.982421 },
+        { name: "Panda Express", lat: 32.819421, lng: -117.180936 },
+        { name: "Panda Express", lat: 32.800800, lng: -117.239810 },
+        { name: "Panda Express", lat: 32.912760, lng: -117.148000 },
+        { name: "Panda Express", lat: 32.912973, lng: -117.148074 },
+        { name: "Panda Express", lat: 32.956469, lng: -117.036202 },
+        { name: "Panda Express", lat: 32.953541, lng: -117.230423 },
+        { name: "Chipotle Mexican Grill", lat: 33.916218, lng: -117.886386 },
+        { name: "Chipotle Mexican Grill", lat: 33.911797, lng: -117.882053 },
+        { name: "Cava", lat: 33.917136, lng: -117.900354 },
+        { name: "Cava", lat: 33.873779, lng: -117.889372 },
+        { name: "Chipotle Mexican Grill", lat: 33.874560, lng: -117.890144 },
+        { name: "Chipotle Mexican Grill", lat: 33.991120, lng: -117.924678 },
+        { name: "Chipotle Mexican Grill", lat: 33.859725, lng: -117.923828 },
+        { name: "Chipotle Mexican Grill", lat: 33.944400, lng: -117.994826 },
+        { name: "Chipotle Mexican Grill", lat: 33.825803, lng: -117.836409 },
+        { name: "Chipotle Mexican Grill", lat: 34.027890, lng: -117.833855 },
+        { name: "Chipotle Mexican Grill", lat: 33.818739, lng: -117.941756 },
+        { name: "CAVA", lat: 33.867675, lng: -117.749437 },
+        { name: "Chipotle Mexican Grill", lat: 33.868028, lng: -117.748151 },
+        { name: "Chipotle Mexican Grill", lat: 33.941058, lng: -118.046208 },
+        { name: "Chipotle Mexican Grill", lat: 34.071107, lng: -117.932771 },
+        { name: "Chipotle Mexican Grill", lat: 34.033692, lng: -117.756796 },
+        { name: "Chipotle Mexican Grill", lat: 33.773374, lng: -117.867012 },
+        { name: "Chipotle Mexican Grill", lat: 33.788841, lng: -117.963235 },
+        { name: "Chipotle Mexican Grill", lat: 33.760376, lng: -117.886108 },
+        { name: "Chipotle Mexican Grill", lat: 33.860444, lng: -118.091254 },
+        { name: "Chipotle Mexican Grill", lat: 34.001213, lng: -118.084296 },
+        { name: "Chipotle Mexican Grill", lat: 34.128151, lng: -117.891572 },
+        { name: "Chipotle Mexican Grill", lat: 33.937815, lng: -118.129553 },
+        { name: "Chipotle Mexican Grill", lat: 34.112051, lng: -117.762247 },
+        { name: "Chipotle Mexican Grill", lat: 34.074589, lng: -118.072208 },
+        { name: "Cava", lat: 33.843730, lng: -118.260839 },
+        { name: "Chipotle Mexican Grill", lat: 33.846571, lng: -118.263455 },
+        { name: "CAVA", lat: 34.025139, lng: -118.284600 },
+        { name: "Chipotle Mexican Grill", lat: 33.618826, lng: -117.703466 },
+        { name: "Chipotle Mexican Grill", lat: 34.138332, lng: -118.214724 },
+        { name: "Chipotle Mexican Grill", lat: 34.054201, lng: -118.263375 },
+        { name: "Chipotle Mexican Grill", lat: 34.110312, lng: -117.535481 },
+        { name: "Chipotle Mexican Grill", lat: 34.016956, lng: -118.282584 },
+        { name: "Chipotle Mexican Grill", lat: 33.873478, lng: -118.308843 },
+        { name: "Chipotle Mexican Grill", lat: 33.907114, lng: -117.458262 },
+        { name: "Chipotle Mexican Grill", lat: 34.062187, lng: -118.291385 },
+        { name: "Chipotle Mexican Grill", lat: 33.930720, lng: -118.325430 },
+        { name: "Chipotle Mexican Grill", lat: 34.147457, lng: -118.246342 },
+        { name: "Chipotle Mexican Grill", lat: 34.203555, lng: -118.197754 },
+        { name: "Chipotle Mexican Grill", lat: 33.576980, lng: -117.725427 },
+        { name: "Chipotle Mexican Grill", lat: 34.145150, lng: -118.259310 },
+        { name: "Chipotle Mexican Grill", lat: 34.147958, lng: -118.255294 },
+        { name: "Chipotle Mexican Grill", lat: 33.592255, lng: -117.660299 },
+        { name: "Chipotle Mexican Grill", lat: 34.013326, lng: -118.336631 },
+        { name: "Chipotle Mexican Grill", lat: 33.751013, lng: -118.307149 },
+        { name: "Chipotle Mexican Grill", lat: 34.047888, lng: -118.335601 },
+        { name: "Chipotle Mexican Grill", lat: 33.834978, lng: -118.352868 },
+        { name: "Chipotle Mexican Grill", lat: 33.831795, lng: -118.349451 },
+        { name: "CAVA", lat: 33.559370, lng: -117.671472 },
+        { name: "Chipotle Mexican Grill", lat: 33.559422, lng: -117.671419 },
+        { name: "Chipotle Mexican Grill", lat: 33.557725, lng: -117.668467 },
+        { name: "Chipotle Mexican Grill", lat: 34.138460, lng: -117.441459 },
+        { name: "Chipotle Mexican Grill", lat: 33.985687, lng: -118.393269 },
+        { name: "Chipotle Mexican Grill", lat: 33.988111, lng: -118.393011 },
+        { name: "Chipotle Mexican Grill", lat: 34.181958, lng: -118.311442 },
+        { name: "Chipotle Mexican Grill", lat: 34.151664, lng: -118.343328 },
+        { name: "CAVA", lat: 34.191231, lng: -118.329357 },
+        { name: "Chipotle Mexican Grill", lat: 34.077257, lng: -117.370741 },
+        { name: "Cava", lat: 34.059015, lng: -118.418866 },
+        { name: "Chipotle Mexican Grill", lat: 34.058763, lng: -118.419009 },
+        { name: "Chipotle Mexican Grill", lat: 33.493068, lng: -117.697753 },
+        { name: "Chipotle Mexican Grill", lat: 33.979174, lng: -118.438330 },
+        { name: "Chipotle Mexican Grill", lat: 33.890282, lng: -117.324364 },
+        { name: "Chipotle Mexican Grill", lat: 34.073522, lng: -117.551808 },
+        { name: "Chipotle Mexican Grill", lat: 34.077650, lng: -117.557571 },
+        { name: "Chipotle Mexican Grill", lat: 34.033441, lng: -117.628838 },
+        { name: "Chipotle Mexican Grill", lat: 34.087357, lng: -117.689102 },
+        { name: "Chipotle Mexican Grill", lat: 33.976672, lng: -117.552858 },
+        { name: "Chipotle Mexican Grill", lat: 33.876535, lng: -118.217832 },
+        { name: "Chipotle Mexican Grill", lat: 33.974442, lng: -118.233507 },
+        { name: "Cava", lat: 33.939277, lng: -117.278496 },
+        { name: "Chipotle Mexican Grill", lat: 33.692065, lng: -117.335549 },
+        { name: "Chipotle Mexican Grill", lat: 34.069253, lng: -117.261902 },
+        { name: "Chipotle Mexican Grill", lat: 33.807457, lng: -117.226595 },
+        { name: "Chipotle Mexican Grill", lat: 34.428009, lng: -117.378421 },
+        { name: "Chipotle Mexican Grill", lat: 34.470857, lng: -117.244533 },
+        { name: "Chipotle Mexican Grill", lat: 33.952511, lng: -118.185637 },
+        { name: "Chipotle Mexican Grill", lat: 34.038389, lng: -118.144555 },
+        { name: "Chipotle Mexican Grill", lat: 34.135363, lng: -118.054206 },
+        { name: "Chipotle Mexican Grill", lat: 34.157125, lng: -118.437303 },
+        { name: "Cava", lat: 34.151427, lng: -118.453591 },
+        { name: "Chipotle Mexican Grill", lat: 34.151537, lng: -118.453618 },
+        { name: "Chipotle Mexican Grill", lat: 34.139812, lng: -118.012471 },
+        { name: "Chipotle Mexican Grill", lat: 34.172314, lng: -118.448309 },
+        { name: "Chipotle Mexican Grill", lat: 34.236973, lng: -118.535706 },
+        { name: "Chipotle Mexican Grill", lat: 34.257748, lng: -118.502082 },
+        { name: "Cava", lat: 34.184866, lng: -118.604469 },
+        { name: "Chipotle Mexican Grill", lat: 34.190010, lng: -118.602540 },
+        { name: "Chipotle Mexican Grill", lat: 34.187768, lng: -118.597919 },
+        { name: "Chipotle Mexican Grill", lat: 33.658189, lng: -117.918662 },
+        { name: "Chipotle Mexican Grill", lat: 33.638978, lng: -117.860085 },
+        { name: "Chipotle Mexican Grill", lat: 33.854143, lng: -118.141950 },
+        { name: "Chipotle Mexican Grill", lat: 34.166125, lng: -118.374973 },
+        { name: "Cava", lat: 33.791543, lng: -118.139550 },
+        { name: "Chipotle Mexican Grill", lat: 33.790107, lng: -118.138691 },
+        { name: "Chipotle Mexican Grill", lat: 34.417915, lng: -118.561442 },
+        { name: "Chipotle Mexican Grill", lat: 34.153718, lng: -118.796540 },
+        { name: "Chipotle Mexican Grill", lat: 34.442844, lng: -118.573891 },
+        { name: "Chipotle Mexican Grill", lat: 34.182046, lng: -118.884958 },
+        { name: "Chipotle Mexican Grill", lat: 34.278772, lng: -118.866754 },
+        { name: "Chipotle Mexican Grill", lat: 34.191162, lng: -118.937731 },
+        { name: "Chipotle Mexican Grill", lat: 34.602343, lng: -118.150165 },
+        { name: "Chipotle Mexican Grill", lat: 34.217253, lng: -119.065558 },
+        { name: "Chipotle Mexican Grill", lat: 33.650728, lng: -117.742884 },
+        { name: "Chipotle Mexican Grill", lat: 34.264407, lng: -119.212585 },
+        { name: "Chipotle Mexican Grill", lat: 34.266740, lng: -119.246087 },
+        { name: "Chipotle Mexican Grill", lat: 33.443433, lng: -117.613837 },
+        { name: "Chipotle Mexican Grill", lat: 33.598255, lng: -117.239851 },
+        { name: "Chipotle Mexican Grill", lat: 33.684589, lng: -117.174838 },
+        { name: "Chipotle Mexican Grill", lat: 33.181867, lng: -117.331756 },
+        { name: "Chipotle Mexican Grill", lat: 33.205653, lng: -117.288619 },
+        { name: "Chipotle Mexican Grill", lat: 33.524089, lng: -117.158987 },
+        { name: "Chipotle Mexican Grill", lat: 33.200635, lng: -117.244975 },
+        { name: "Chipotle Mexican Grill", lat: 33.480981, lng: -117.096956 },
+        { name: "CAVA", lat: 33.066013, lng: -117.265530 },
+        { name: "Chipotle Mexican Grill", lat: 33.137025, lng: -117.176270 },
+        { name: "Chipotle Mexican Grill", lat: 33.747156, lng: -116.997510 },
+        { name: "Chipotle Mexican Grill", lat: 33.743745, lng: -116.217090 },
+        { name: "Chipotle Mexican Grill", lat: 33.728109, lng: -116.403054 },
+        { name: "Chipotle Mexican Grill", lat: 33.801447, lng: -116.387471 },
+        { name: "Chipotle Mexican Grill", lat: 33.923301, lng: -116.805404 },
+        { name: "Chipotle Mexican Grill", lat: 33.924673, lng: -116.946393 },
+        { name: "Chipotle Mexican Grill", lat: 33.130323, lng: -117.066590 },
+        { name: "Chipotle Mexican Grill", lat: 33.071111, lng: -117.066293 },
+        { name: "Chipotle Mexican Grill", lat: 34.852821, lng: -117.082797 },
+        { name: "Chipotle Mexican Grill", lat: 34.439504, lng: -119.749160 },
+        { name: "Chipotle Mexican Grill", lat: 32.647115, lng: -116.965626 },
+        { name: "Chipotle Mexican Grill", lat: 32.748630, lng: -117.157740 },
+        { name: "CAVA", lat: 32.768956, lng: -117.146348 },
+        { name: "Chipotle Mexican Grill", lat: 32.767984, lng: -117.153251 },
+        { name: "Chipotle Mexican Grill", lat: 32.751195, lng: -117.205606 },
+        { name: "Chipotle Mexican Grill", lat: 32.840942, lng: -116.981459 },
+        { name: "Chipotle Mexican Grill", lat: 32.820499, lng: -117.178981 },
+        { name: "Chipotle Mexican Grill", lat: 32.799715, lng: -117.242623 },
+        { name: "Chipotle Mexican Grill", lat: 32.914052, lng: -117.145928 },
+        { name: "Chipotle Mexican Grill", lat: 32.954906, lng: -117.038904 },
+        { name: "CAVA", lat: 32.951163, lng: -117.235896 }
+      ];
+
+      // Color mapping based on location type
+      const colors = {
+        panda: "red",
+        cava: "yellow",
+        chipotle: "purple"
+      };
+
+      function getColor(location) {
+        if(location.name.toLowerCase() == 'Panda Express'.toLowerCase()) {
+          return colors.panda;
+        }else if(location.name.toLowerCase() == 'CAVA'.toLowerCase()) {
+          return colors.cava
+        } else if(location.name.toLowerCase() == 'Chipotle Mexican Grill'.toLowerCase()) {
+          return colors.chipotle;
+        }
+        return colors.panda;
+      }
+
+      // Initialize the Google Map
+      function initMap() {
+        // Center the map on a specific location
+        const center = { lat: 34.0522, lng: -118.2437 }; // Los Angeles, for example
+
+        // Create the map
+        const map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 10,
+          center: center
+        });
+
+        // Loop through locations and add markers
+        locations.forEach((location) => {
+          const color = getColor(location);
+          const iconUrl = `http://maps.google.com/mapfiles/ms/icons/${color}-dot.png`;
+          const marker = new google.maps.Marker({
+            position: { lat: location.lat, lng: location.lng },
+            map: map,
+            title: location.name,
+            icon: iconUrl
+          });
+
+          // Add an info window for each marker
+          const infoWindow = new google.maps.InfoWindow({
+            content: `<div><strong>${location.name}</strong></div>`
+          });
+
+          // Open info window on marker click
+          marker.addListener("click", () => {
+            infoWindow.open(map, marker);
+          });
+        });
+      }
+    </script>
+  </head>
+  <body onload="initMap()">
+    <div id="map"></div>
+  </body>
+</html>
